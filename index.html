@@ -6,34 +6,39 @@
 <title>Fiołkowy Zakątek w 3D</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
 <style>
 /* Układ: karta wyboru lokalu i lista pomieszczeń po lewej, scena 3D po prawej; na telefonie scena u góry. */
 :root {
-  --bg: #eceeea;
-  --panel: #f8f9f6;
-  --stage: #dfe3dd;
-  --fg: #1f2421;
-  --muted: #646b66;
-  --line: #d3d8d1;
-  --accent: #6a4c9c;
-  --accent-soft: #e6def3;
+  --bg: #faf5e5;
+  --panel: #ffffff;
+  --stage: #f1e9d2;
+  --fg: #141004;
+  --muted: #6e6757;
+  --line: #e8dcbc;
+  --accent: #d09a40;       /* złoto ze strony osiedla */
+  --accent-ink: #9a6b1c;   /* złoto do tekstu na jasnym tle */
+  --accent-soft: #f7edd6;
   --on-accent: #ffffff;
+  --navy: #0f172a;         /* granat nagłówka strony */
+  --on-navy: #ffffff;
   --hover: #2f9e55;        /* zieleń podświetlenia kondygnacji */
   --hover-ink: #23803f;
-  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
-  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
-  --font-data: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --font-display: "Poppins", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --font-data: "Inter", "Segoe UI", system-ui, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #161917; --panel: #1d211e; --stage: #252a26; --fg: #e8ebe7; --muted: #9aa29c;
-    --line: #333a35; --accent: #b39ae0; --accent-soft: #352c48; --on-accent: #1a1424; --hover: #4cc97a; --hover-ink: #6fdc96; color-scheme: dark;
+    --bg: #0b1222; --panel: #0f172a; --stage: #172238; --fg: #f4eedc; --muted: #a7aebd;
+    --line: #26324b; --accent: #dca54a; --accent-ink: #e6b863; --accent-soft: #2a2516; --on-accent: #141004;
+    --navy: #070d1b; --on-navy: #ffffff; --hover: #4cc97a; --hover-ink: #6fdc96; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #161917; --panel: #1d211e; --stage: #252a26; --fg: #e8ebe7; --muted: #9aa29c;
-  --line: #333a35; --accent: #b39ae0; --accent-soft: #352c48; --on-accent: #1a1424; --hover: #4cc97a; --hover-ink: #6fdc96; color-scheme: dark;
+  --bg: #0b1222; --panel: #0f172a; --stage: #172238; --fg: #f4eedc; --muted: #a7aebd;
+    --line: #26324b; --accent: #dca54a; --accent-ink: #e6b863; --accent-soft: #2a2516; --on-accent: #141004;
+    --navy: #070d1b; --on-navy: #ffffff; --hover: #4cc97a; --hover-ink: #6fdc96; color-scheme: dark;
 }
 html, body { height: 100%; }
 body { margin: 0; }
@@ -41,14 +46,15 @@ body { margin: 0; }
 body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 14px; line-height: 1.45; }
 .app { height: 100%; box-sizing: border-box; padding: 16px; display: grid; grid-template-columns: 370px minmax(0, 1fr); gap: 16px; }
 .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 20px; overflow-y: auto; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
-.eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin: 0; }
-h1 { font-family: var(--font-display); font-weight: 700; font-size: 32px; line-height: 1.05; margin: 6px 0 0; text-wrap: balance; }
+.eyebrow { font: 600 11px var(--font-display); letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin: 0; }
+.sheet-head { background: var(--navy); color: var(--on-navy); margin: -20px -20px 0; padding: 20px; border-radius: 13px 13px 0 0; }
+h1 { font-family: var(--font-display); font-weight: 700; font-size: 30px; line-height: 1.1; margin: 6px 0 0; text-wrap: balance; text-transform: uppercase; letter-spacing: .02em; }
 h1 span { color: var(--accent); }
 .picker { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px 8px; }
-.bgroup { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 0 2px 4px; border-bottom: 1px solid var(--line); }
+.bgroup { font-family: var(--font-display); font-weight: 600; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 0 2px 4px; border-bottom: 1px solid var(--line); }
 .bgroup.b3 { grid-column: 2 / 4; }
 .badge { position: absolute; left: 12px; top: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 7px 11px; max-width: 45%; pointer-events: none; }
-.badge b { display: block; font-family: var(--font-display); font-size: 17px; line-height: 1.15; }
+.badge b { display: block; font-family: var(--font-display); font-weight: 700; font-size: 17px; line-height: 1.15; }
 .badge span { font-size: 11px; color: var(--muted); }
 .swaptitle { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; pointer-events: none; opacity: 0; }
 .swaptitle b { font-family: var(--font-display); font-weight: 700; font-size: clamp(32px, 6vw, 64px); line-height: 1; color: var(--fg); text-shadow: 0 2px 16px var(--stage); }
@@ -58,27 +64,27 @@ h1 span { color: var(--accent); }
 .switching .lbl { display: none; }
 .apt { text-align: left; font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 10px; cursor: pointer; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .apt:hover { border-color: var(--accent); }
-.apt[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
-.apt .lvl { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; opacity: .8; }
+.apt[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); box-shadow: 0 8px 20px -10px var(--accent); }
+.apt .lvl { font-family: var(--font-display); font-weight: 600; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; opacity: .8; }
 .apt .code { font-family: var(--font-display); font-weight: 700; font-size: 26px; line-height: 1.1; }
-.apt .area { font-family: var(--font-data); font-size: 12px; }
+.apt .area { font-family: var(--font-data); font-size: 12px; font-variant-numeric: tabular-nums; }
 .apt .extra { font-size: 11px; opacity: .8; }
 .apt:focus-visible, .room:focus-visible, .viewbtns button:focus-visible, .seg button:focus-visible, .toggles input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
 .desc { margin: 0; color: var(--muted); font-size: 13px; }
-.seg { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--bg); border: 1px solid var(--line); border-radius: 10px; padding: 3px; gap: 3px; }
-.seg button { font: 500 13px var(--font-body); color: var(--fg); background: transparent; border: 0; border-radius: 7px; padding: 7px 4px; cursor: pointer; }
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 3px; gap: 3px; }
+.seg button { font: 600 12px var(--font-display); text-transform: uppercase; letter-spacing: .04em; color: var(--fg); background: transparent; border: 0; border-radius: 999px; padding: 7px 4px; cursor: pointer; }
 .seg button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
 .toggles { display: flex; flex-wrap: wrap; gap: 6px 14px; }
 .toggles label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; font-size: 13px; }
 .toggles input { accent-color: var(--accent); width: 15px; height: 15px; margin: 0; }
-.level h2 { font-family: var(--font-display); font-weight: 500; font-size: 18px; margin: 0 0 6px; display: flex; justify-content: space-between; align-items: baseline; }
+.level h2 { font-family: var(--font-display); font-weight: 600; font-size: 18px; margin: 0 0 6px; display: flex; justify-content: space-between; align-items: baseline; }
 .level h2 small { font-family: var(--font-data); font-size: 13px; color: var(--muted); font-weight: 400; }
 #sections { display: flex; flex-direction: column; gap: 16px; }
 .rooms { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
 .room { display: grid; grid-template-columns: 42px 1fr auto; gap: 8px; align-items: baseline; width: 100%; padding: 7px 6px; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--fg); font: inherit; text-align: left; cursor: pointer; }
 .room:hover { background: var(--accent-soft); }
 .room.active { background: var(--accent-soft); box-shadow: inset 3px 0 0 var(--accent); }
-.room .no { font-family: var(--font-data); font-size: 12px; color: var(--muted); }
+.room .no { font-family: var(--font-data); font-size: 12px; color: var(--accent-ink); font-weight: 600; font-variant-numeric: tabular-nums; }
 .room .ar { font-family: var(--font-data); font-variant-numeric: tabular-nums; font-size: 13px; }
 .room small { display: block; color: var(--muted); font-size: 11px; }
 .extras { font-size: 13px; color: var(--muted); display: flex; flex-direction: column; gap: 2px; padding: 6px 6px 0; font-variant-numeric: tabular-nums; }
@@ -89,11 +95,11 @@ h1 span { color: var(--accent); }
 #view canvas { display: block; touch-action: none; }
 .hint { position: absolute; left: 12px; bottom: 12px; font-size: 12px; color: var(--muted); background: var(--panel); border: 1px solid var(--line); padding: 5px 9px; border-radius: 8px; pointer-events: none; }
 .viewbtns { position: absolute; right: 12px; top: 12px; display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 6px; max-width: calc(100% - 24px); }
-.viewbtns button { font: 500 12px var(--font-body); background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; cursor: pointer; }
-.viewbtns button:hover { border-color: var(--accent); }
+.viewbtns button { font: 600 11px var(--font-display); text-transform: uppercase; letter-spacing: .05em; background: var(--navy); color: var(--on-navy); border: 1px solid var(--navy); border-radius: 999px; padding: 8px 14px; box-shadow: 0 4px 14px -6px rgb(15 23 42 / .5); cursor: pointer; }
+.viewbtns button:hover { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
 .loading { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-size: 13px; }
 .lbl { font: 500 11px var(--font-body); color: var(--fg); background: var(--panel); border: 1px solid var(--line); padding: 3px 7px; border-radius: 6px; white-space: nowrap; pointer-events: auto; cursor: pointer; display: flex; gap: 6px; align-items: baseline; opacity: .92; transition: transform .15s; }
-.lbl b { font-family: var(--font-data); font-weight: 500; color: var(--accent); }
+.lbl b { font-family: var(--font-data); font-weight: 600; color: var(--accent-ink); }
 .lbl i { font-style: normal; font-family: var(--font-data); color: var(--muted); }
 .lbl.active { background: var(--accent); color: var(--on-accent); border-color: var(--accent); transform: scale(1.08); }
 .lbl.active b, .lbl.active i { color: var(--on-accent); }
@@ -105,7 +111,7 @@ h1 span { color: var(--accent); }
 .grab { display: none; }
 .walkhud { position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; z-index: 4; max-width: calc(100% - 24px); }
 .walkhud-row { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
-.walkhud button { font: 500 13px var(--font-body); background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 9px; padding: 7px 12px; cursor: pointer; }
+.walkhud button { font: 600 12px var(--font-display); text-transform: uppercase; letter-spacing: .04em; background: var(--panel); color: var(--fg); border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; cursor: pointer; }
 .walkhud button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
 .walkhud button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .walkhud p { margin: 0; font-size: 11px; color: var(--muted); background: var(--panel); border: 1px solid var(--line); padding: 3px 8px; border-radius: 7px; text-align: center; }
@@ -132,14 +138,16 @@ h1 span { color: var(--accent); }
   }
   .panel.dragging { transition: none; }
   .panel.open { overflow-y: auto; overscroll-behavior: contain; }
-  .sheet-head { position: sticky; top: 0; z-index: 1; background: var(--panel); touch-action: none; cursor: grab; padding-bottom: 2px; }
+  .sheet-head { position: sticky; top: 0; z-index: 1; background: var(--navy); touch-action: none; cursor: grab; margin: 0 -16px; padding: 0 16px 12px; border-radius: 18px 18px 0 0; }
   .grab { display: flex; justify-content: center; padding: 10px 0 6px; }
-  .grab span { width: 42px; height: 5px; border-radius: 3px; background: var(--muted); opacity: .45; }
+  .grab span { width: 42px; height: 5px; border-radius: 3px; background: var(--on-navy); opacity: .45; }
   h1 { font-size: 24px; margin-top: 2px; }
   .badge { top: 54px; }
   .walkhud { bottom: 84px; }
   .joy { bottom: 150px; }
   .lbl i { display: none; }
+  .viewbtns { gap: 5px; }
+  .viewbtns button { font-size: 10px; padding: 6px 10px; }
   .hint { display: none; }
 }
 @media (max-width: 820px) and (prefers-reduced-motion: reduce) { .panel { transition: none; } }
@@ -354,7 +362,7 @@ Promise.all([
   document.getElementById('loading').hidden = true;
   setUnit(initialUnit(), true);
   if (mobile.matches) setSheet('mid');
-  frontView(true);
+  if (unit === 'b1') frontView(true); else { showRoof(false); view3d(true); }   // mieszkania startują od wnętrza
 }).catch(err => { document.getElementById('loading').textContent = 'Nie udało się wczytać modeli: ' + err.message; });
 
 // ---- kamera
@@ -387,7 +395,7 @@ document.getElementById('v-top').onclick = () => clearTimeout(seqTimer) ?? flyTo
 // widok od frontu z dachem – domyślny po otwarciu strony
 function frontView(instant) {
   if (unit === 'b1' && b1mode === 'parter') setB1Mode('pietro');
-  showRoof(true);
+  showRoof(unit !== 'b3a');   // przy samym parterze B3A dach wisiałby w powietrzu
   const tgt = V(U().front[1]), dir = V(U().front[0]).sub(tgt);
   const pos = tgt.clone().add(dir.multiplyScalar(Math.max(1, 1.45 / camera.aspect)));
   if (instant) { camera.position.copy(pos); controls.target.copy(tgt); } else flyTo(pos, tgt);
